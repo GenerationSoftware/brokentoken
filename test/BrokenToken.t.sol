@@ -13,12 +13,19 @@ contract BrokenTokenTest is Test, BrokenToken {
     MockERC4626 vault;
 
     function testWeirdTokenDeposit() public useBrokenToken {
-        vault = new MockERC4626(ERC20(address(brokenERC20)), brokenERC20_NAME, brokenERC20_NAME);
+        vault = new MockERC4626(
+            ERC20(address(brokenERC20)),
+            brokenERC20_NAME,
+            brokenERC20_NAME
+        );
+
         deal(address(brokenERC20), bob, 1_000_000);
 
         vm.startPrank(bob);
+
         brokenERC20.approve(address(vault), 1_000_000);
         vault.deposit(100, bob);
+
         vm.stopPrank();
     }
 }
